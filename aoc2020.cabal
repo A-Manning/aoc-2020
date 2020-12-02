@@ -1,0 +1,67 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: d1558972a6544b9893907c86bee0945ce0b7f9c3715e52f6198ee99e0e21caf6
+
+name:           aoc2020
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/A-Manning/aoc-2020#readme>
+homepage:       https://github.com/A-Manning/aoc-2020#readme
+bug-reports:    https://github.com/A-Manning/aoc-2020/issues
+author:         Ash Manning
+maintainer:     please.do.not@email.me
+copyright:      2020 Ash Manning
+license:        AGPL-3.0
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/A-Manning/aoc-2020
+
+library
+  exposed-modules:
+      Util.Input
+      Util.List
+  other-modules:
+      Paths_aoc2020
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , containers >=0.6
+    , split >=0.2.3
+  default-language: Haskell2010
+
+executable day01
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2020
+  hs-source-dirs:
+      app/day01
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc2020
+    , base >=4.7 && <5
+    , containers >=0.6
+    , split >=0.2.3
+  default-language: Haskell2010
+
+executable day02
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2020
+  hs-source-dirs:
+      app/day02
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc2020
+    , base >=4.7 && <5
+    , containers >=0.6
+    , split >=0.2.3
+  default-language: Haskell2010

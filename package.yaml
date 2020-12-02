@@ -1,0 +1,46 @@
+name:                aoc2020
+version:             0.1.0.0
+github:              "A-Manning/aoc-2020"
+license:             AGPL-3.0
+author:              "Ash Manning"
+maintainer:          "please.do.not@email.me"
+copyright:           "2020 Ash Manning"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/A-Manning/aoc-2020#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- containers >= 0.6
+- split >= 0.2.3
+
+library:
+  source-dirs: src
+
+_executables-ghc-options-common: &executables-ghc-options-common
+- -threaded
+- -rtsopts
+- -with-rtsopts=-N
+
+_executables-common: &executables-common
+  main: Main.hs
+  ghc-options: *executables-ghc-options-common
+  dependencies:
+  - aoc2020
+
+executables:
+  day01:
+    <<: *executables-common
+    source-dirs: app/day01
+  day02:
+    <<: *executables-common
+    source-dirs: app/day02
