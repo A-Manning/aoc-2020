@@ -1,9 +1,9 @@
 module Main where
 
-import Data.Function ((&))
 import Data.Set (Set, fromList, member, toList)
-import Util.Input (readInputLines)
-import Util.List (firstJust)
+import Foldable (firstJust)
+import Function ((&))
+import Input (readInputList)
 
 ksum :: Int -> Int -> Set Int -> Maybe [Int]
 ksum 0 _ _ = Nothing
@@ -17,6 +17,6 @@ ksum2020Product k = fmap product . ksum k 2020
 
 main :: IO ()
 main = do
-  inputSet <- fromList <$> readInputLines 01
+  inputSet <- fromList <$> readInputList 01
   print $ ksum2020Product 2 inputSet
   print $ ksum2020Product 3 inputSet

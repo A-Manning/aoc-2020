@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d1558972a6544b9893907c86bee0945ce0b7f9c3715e52f6198ee99e0e21caf6
+-- hash: 67caafb208f50dd7a622d63a6177da4cd4eb750c20dc90fcf0bdc6dfcd665939
 
 name:           aoc2020
 version:        0.1.0.0
@@ -26,8 +26,13 @@ source-repository head
 
 library
   exposed-modules:
-      Util.Input
-      Util.List
+      Foldable
+      Function
+      Input
+      List
+      Matrix
+      Read
+      Vector
   other-modules:
       Paths_aoc2020
   hs-source-dirs:
@@ -36,6 +41,7 @@ library
       base >=4.7 && <5
     , containers >=0.6
     , split >=0.2.3
+    , vector >=0.12
   default-language: Haskell2010
 
 executable day01
@@ -50,6 +56,7 @@ executable day01
     , base >=4.7 && <5
     , containers >=0.6
     , split >=0.2.3
+    , vector >=0.12
   default-language: Haskell2010
 
 executable day02
@@ -64,4 +71,20 @@ executable day02
     , base >=4.7 && <5
     , containers >=0.6
     , split >=0.2.3
+    , vector >=0.12
+  default-language: Haskell2010
+
+executable day03
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc2020
+  hs-source-dirs:
+      app/day03
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc2020
+    , base >=4.7 && <5
+    , containers >=0.6
+    , split >=0.2.3
+    , vector >=0.12
   default-language: Haskell2010

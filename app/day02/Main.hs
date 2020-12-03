@@ -2,8 +2,9 @@
 module Main where
 
 import Data.List.Split (splitOn)
-import Util.Input (inputLines)
-import Util.List ((!!?), count, countBy)
+import Foldable (count, countBy)
+import Input (procInputList)
+import List ((!!?))
 
 data Row = Row {lo :: Int, hi :: Int, ch :: Char, pass :: String}
 
@@ -25,6 +26,6 @@ part2 (Row {lo, hi, ch, pass}) =
 
 main :: IO ()
 main = do
-  rows <- map readRow <$> inputLines 02;
+  rows <- procInputList 02 readRow;
   print $ countBy part1 rows
   print $ countBy part2 rows
