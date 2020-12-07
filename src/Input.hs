@@ -8,36 +8,20 @@ import Text.Printf (printf)
 
 import Function
 
--- get the nth problem input as a string
-input :: Int -> IO String
-input = readFile . printf "inputs/day%02d.txt"
+get :: Int -> IO String
+get = readFile . printf "inputs/day%02d.txt"
 
--- get the nth problem input as a list of lines
-inputList :: Int -> IO [String]
-inputList = (lines <$>) . input
-
--- Apply the function to each line of the nth problem input, obtaining a list.
-procInputList :: Int -> (String -> a) -> IO [a]
-procInputList n f = map f <$> inputList n
+getBB :: Int -> IO String
+getBB = readFile . printf "bigboys/day%02d.txt"
 
 -- read the nth problem input lines into a list
-readInputList :: Read a => Int -> IO [a]
-readInputList n = procInputList n read
-
-{- Apply the function to each line of the nth problem input,
-   obtaining a Vector. -}
-procInputVector :: Int -> (String -> a) -> IO (Vector.T a)
-procInputVector = procInputList >>$ fmap Vector.fromList
-
--- get the nth problem input as a vector of lines
-inputVector :: Int -> IO (Vector.T String)
-inputVector n = procInputVector n id
+list :: (String -> a) -> String -> [a]
+list f = fmap f . lines
 
 -- read the nth problem input lines into a vector
-readInputVector :: Read a => Int -> IO (Vector.T a)
-readInputVector n = procInputVector n read
+vector :: (String -> a) -> String -> Vector.T a
+vector = Vector.fromList $<< list
 
 -- read the nth problem input chars into a matrix
-inputMatrix :: Int -> IO (Matrix.T Char)
-inputMatrix n =
-  Matrix.transpose . Matrix.Matrix <$> procInputVector n Vector.fromList
+matrix :: String -> Matrix.T Char
+matrix = Matrix.transpose . Matrix.Matrix . vector Vector.fromList

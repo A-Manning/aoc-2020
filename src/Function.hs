@@ -1,6 +1,6 @@
 module Function (
-   module Control.Arrow
-   , (&)
+     module Control.Arrow
+   , module Data.Function
    , (<<$)
    , ($>>)
    , (>>$)
@@ -12,10 +12,7 @@ module Function (
 ) where
 
 import Control.Arrow
-import qualified Data.Function as F
-
-(&) :: a -> (a -> b) -> b
-(&) = (F.&)
+import Data.Function ((&))
 
 -- compose with the second input to an arrow
 (<<$) :: Arrow a => a b (a d e) -> a c d -> a b (a c e)

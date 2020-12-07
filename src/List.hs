@@ -1,6 +1,9 @@
-module List where
+module List (
+    module Data.List
+  , module Data.List.Split
+  , module List.Extra
+) where
 
-(!!?) :: [a] -> Int -> Maybe a
-(!!?)       [] _ = Nothing
-(!!?) (x :  _) 0 = Just x
-(!!?) (_ : xs) i = xs !!? pred i
+import Data.List
+import Data.List.Split (splitOn)
+import List.Extra

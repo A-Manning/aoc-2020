@@ -39,12 +39,6 @@ _executables-common: &executables-common
   - aoc2020
 
 executables:
-  day01:
+  aoc-2020:
     <<: *executables-common
-    source-dirs: app/day01
-  day02:
-    <<: *executables-common
-    source-dirs: app/day02
-  day03:
-    <<: *executables-common
-    source-dirs: app/day03
+    source-dirs: app

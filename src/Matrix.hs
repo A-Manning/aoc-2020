@@ -1,7 +1,6 @@
 module Matrix where
 
 import qualified Data.Maybe as Maybe
-import qualified Data.Vector as Vector
 import qualified Vector
 
 import Data.Functor.Identity(Identity(..))
