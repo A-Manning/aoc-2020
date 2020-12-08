@@ -4,5 +4,5 @@ import Solutions (solve, solveBB)
 
 main :: IO ()
 main = do
-  solve 05
+  solve 08
   --solveBB 05

@@ -23,3 +23,9 @@ unsafeFind = Foldable.find >>$ Maybe.fromJust
 
 firstJust :: Foldable f => f (Maybe a) -> Maybe a
 firstJust = Monad.join . Foldable.find Maybe.isJust
+
+findJust :: Foldable f => (a -> Maybe b) -> f a -> Maybe b
+findJust f = Monad.join . fmap f . Foldable.find (Maybe.isJust . f)
+
+unsafeFindJust :: Foldable f => (a -> Maybe b) -> f a -> b
+unsafeFindJust = findJust >>$ Maybe.fromJust

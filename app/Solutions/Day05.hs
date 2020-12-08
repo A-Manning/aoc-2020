@@ -1,14 +1,10 @@
 {-# LANGUAGE LambdaCase #-}
 module Solutions.Day05 where
 
-import qualified Map
 import qualified Set
 
-import Map ((!))
-import Function
-import Foldable (allP, anyP, countBy)
 import Input hiding (get)
-import List (asPair, find, intercalate, maximum, splitOn, sort)
+import List (maximum)
 import Numeric (readInt)
 
 decode :: String -> (Int, Int)
@@ -26,7 +22,7 @@ part1 = maximum . map seatID
 
 part2 :: [(Int, Int)] -> [Int]
 part2 poss =
-  let ids = Set.fromList $ sort $ map seatID poss in
+  let ids = Set.fromList $ map seatID poss in
   filter (\e -> not $ Set.member e ids) [Set.findMin ids..part1 poss]
 
 solve :: String -> IO ()

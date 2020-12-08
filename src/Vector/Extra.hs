@@ -30,3 +30,9 @@ mapJust = Vector.map >>$ catMaybes
 -- returns the prefix of elements for which the mapping returns `Just`.
 mapWhile :: (a -> Maybe b) -> Vector a -> Vector b
 mapWhile = Vector.map >>$ takeJust
+
+updateAt :: Int -> a -> Vector a -> Vector a
+updateAt idx x vec = Vector.update vec $ Vector.singleton (idx, x)
+
+mapAt :: Int -> (a -> a) -> Vector a -> Vector a
+mapAt idx f vec = updateAt idx (f (vec `at` idx)) vec
