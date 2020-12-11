@@ -10,6 +10,7 @@ import Function
 {- A 2D matrix. The inner vectors are the columns.
    A matrix with zero height must have zero width, and vice versa. -}
 newtype Matrix a = Matrix {toVector :: Vector.T (Vector.T a)}
+  deriving (Eq, Show)
 
 type T a = Matrix a
 
@@ -143,3 +144,12 @@ generate = (>>$ Identity) $$>> generateM >>$$ runIdentity
 
 transpose :: Matrix a -> Matrix a
 transpose m = generate (height m) (width m) (\x y -> m ! (y, x))
+
+---
+--- Mapping
+---
+imap :: ((Int, Int) -> a -> b) -> Matrix a -> Matrix b
+imap f = Matrix . Vector.imap (\x -> Vector.imap (\y -> f (x, y))) . toVector
+
+instance Functor Matrix where
+  fmap f = Matrix . fmap (fmap f) . toVector

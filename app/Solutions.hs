@@ -9,6 +9,9 @@ import qualified Solutions.Day05
 import qualified Solutions.Day06
 import qualified Solutions.Day07
 import qualified Solutions.Day08
+import qualified Solutions.Day09
+import qualified Solutions.Day10
+import qualified Solutions.Day11
 
 
 
@@ -20,7 +23,10 @@ solutions = [ Solutions.Day01.solve
             , Solutions.Day05.solve
             , Solutions.Day06.solve
             , Solutions.Day07.solve
-            , Solutions.Day08.solve ]
+            , Solutions.Day08.solve
+            , Solutions.Day09.solve
+            , Solutions.Day10.solve
+            , Solutions.Day11.solve ]
 
 solutionsBB :: [String -> IO ()]
 solutionsBB = [ Solutions.Day01.solveBB
