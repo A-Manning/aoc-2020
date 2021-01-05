@@ -2,6 +2,10 @@ module Either.Extra where
 
 import qualified Data.Either as Either
 
+fromEither :: Either a a -> a
+fromEither (Left x) = x
+fromEither (Right x) = x
+
 getLeft :: Either a b -> a
 getLeft (Left x) = x
 

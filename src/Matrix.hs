@@ -1,28 +1,36 @@
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 module Matrix where
 
 import qualified Data.Maybe as Maybe
+import qualified Foldable
+import qualified List
 import qualified Vector
 
 import Data.Functor.Identity(Identity(..))
-
 import Function
+import Functor (FunctorWithIndex(..))
+
 
 {- A 2D matrix. The inner vectors are the columns.
    A matrix with zero height must have zero width, and vice versa. -}
-newtype Matrix a = Matrix {toVector :: Vector.T (Vector.T a)}
-  deriving (Eq, Show)
+newtype Matrix a = Matrix {toVectors :: Vector.T (Vector.T a)}
+  deriving (Eq)
 
 type T a = Matrix a
 
 -- properties
 width :: Matrix a -> Int
-width = Vector.length . toVector
+width = Vector.length . toVectors
 
 height :: Matrix a -> Int
-height = toVector
+height = toVectors
          >>> (`Vector.atMaybe` 0)
          >>> fmap Vector.length
          >>> Maybe.fromMaybe 0
+
+shape :: Matrix a -> (Int, Int)
+shape m = (width m, height m)
 
 --
 -- slice access
@@ -30,14 +38,14 @@ height = toVector
 
 -- row access
 (-!) :: Matrix a -> Int -> Vector.T a
-(-!) v j = (`Vector.at` j) <$> toVector v
+(-!) v j = (`Vector.at` j) <$> toVectors v
 
 row :: Matrix a -> Int -> Vector.T a
 row = (-!)
 
 -- safe row access
 (-!?) :: Matrix a -> Int -> Maybe (Vector.T a)
-(-!?) v j = Vector.sequence $ (`Vector.atMaybe` j) <$> toVector v
+(-!?) v j = Vector.sequence $ (`Vector.atMaybe` j) <$> toVectors v
 
 rowMaybe :: Matrix a -> Int -> Maybe (Vector.T a)
 rowMaybe = (-!?)
@@ -51,14 +59,14 @@ rowWrap = (-!%)
 
 -- column access
 (|!) :: Matrix a -> Int -> Vector.T a
-(|!) = Vector.at . toVector
+(|!) = Vector.at . toVectors
 
 col :: Matrix a -> Int -> Vector.T a
 col = (|!)
 
 -- safe column access
 (|!?) :: Matrix a -> Int -> Maybe (Vector.T a)
-(|!?) = Vector.atMaybe . toVector
+(|!?) = Vector.atMaybe . toVectors
 
 colMaybe :: Matrix a -> Int -> Maybe (Vector.T a)
 colMaybe = (|!?)
@@ -145,11 +153,61 @@ generate = (>>$ Identity) $$>> generateM >>$$ runIdentity
 transpose :: Matrix a -> Matrix a
 transpose m = generate (height m) (width m) (\x y -> m ! (y, x))
 
+rotate :: Matrix a -> Matrix a
+rotate m =
+  let (w, h) = shape m in
+  Vector.fromList [0..pred h]
+  & fmap (\c -> row m (pred h-c))
+  & Matrix
+
+-- flip across |
+flipH :: Matrix a -> Matrix a
+flipH = Matrix . Vector.reverse . toVectors
+
+instance Show a => Show (Matrix a) where
+  show = List.intercalate "\n" . Vector.toList
+         . fmap show . toVectors . transpose
+
 ---
 --- Mapping
 ---
-imap :: ((Int, Int) -> a -> b) -> Matrix a -> Matrix b
-imap f = Matrix . Vector.imap (\x -> Vector.imap (\y -> f (x, y))) . toVector
+
+instance FunctorWithIndex (Int, Int) Matrix where
+  imap f = toVectors >>> imap (\x -> imap $ \y -> f (x, y)) >>> Matrix
 
 instance Functor Matrix where
-  fmap f = Matrix . fmap (fmap f) . toVector
+  fmap f = Matrix . fmap (fmap f) . toVectors
+
+---
+--- Folding
+---
+
+countBy :: (a -> Bool) -> Matrix a -> Int
+countBy f = sum . fmap (Foldable.countBy f) . toVectors
+
+minima :: (a -> Bool) -> Matrix a -> Maybe (Int, Int)
+minima f m = do
+  let yindices = fmap (Foldable.findIndex f) $ toVectors m
+  minx <- Foldable.findIndex Maybe.isJust yindices
+  let miny = minimum $ Vector.catMaybes yindices
+  return (minx, miny)
+
+maxima :: (a -> Bool) -> Matrix a -> Maybe (Int, Int)
+maxima f m = do
+  let (xlen, ylen) = shape m
+  let yindices = fmap (Vector.reverse
+                       >>>Foldable.findIndex f
+                       >>> fmap (pred ylen -))
+                  $ toVectors m
+  maxx <- Vector.reverse yindices
+            & Foldable.findIndex Maybe.isJust
+            & fmap (pred xlen -)
+  let maxy = maximum $ Vector.catMaybes yindices
+  return (maxx, maxy)
+
+---
+--- Updates
+---
+
+mapAt :: (Int, Int) -> (a -> a) -> Matrix a -> Matrix a
+mapAt (x, y) f = Matrix . Vector.mapAt x (Vector.mapAt y f) . toVectors

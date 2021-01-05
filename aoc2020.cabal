@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c92b2c5ac79d2289453d8f96b58a5b9d45be6e842415a1d77c11b5da1955e6e9
+-- hash: f93f315bfdeb3cc8c0a120c92be7dfcd4ac3bd82f3495d760e3a530213253e7d
 
 name:           aoc2020
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Foldable
       Foldable.Extra
       Function
+      Functor
       Input
       List
       List.Extra
@@ -40,6 +41,8 @@ library
       Read
       Set
       Set.Extra
+      Tensor3
+      Tensor4
       Vector
       Vector.Extra
   other-modules:
@@ -47,10 +50,15 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      array >=0.5.4
+    , base >=4.7 && <5
     , containers >=0.6
     , fgl >=5.7
+    , hashable >=1.3
+    , lens >=4.18
+    , parsec >=3.1.14
     , split >=0.2.3
+    , util >=0.1.17
     , vector >=0.12
   default-language: Haskell2010
 
@@ -69,15 +77,34 @@ executable aoc-2020
       Solutions.Day09
       Solutions.Day10
       Solutions.Day11
+      Solutions.Day12
+      Solutions.Day13
+      Solutions.Day14
+      Solutions.Day15
+      Solutions.Day16
+      Solutions.Day17
+      Solutions.Day18
+      Solutions.Day19
+      Solutions.Day20
+      Solutions.Day21
+      Solutions.Day22
+      Solutions.Day23
+      Solutions.Day24
+      Solutions.Day25
       Paths_aoc2020
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wno-partial-type-signatures
   build-depends:
       aoc2020
+    , array >=0.5.4
     , base >=4.7 && <5
     , containers >=0.6
     , fgl >=5.7
+    , hashable >=1.3
+    , lens >=4.18
+    , parsec >=3.1.14
     , split >=0.2.3
+    , util >=0.1.17
     , vector >=0.12
   default-language: Haskell2010

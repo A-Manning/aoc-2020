@@ -19,10 +19,15 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/A-Manning/aoc-2020#readme>
 
 dependencies:
+- array >= 0.5.4
 - base >= 4.7 && < 5
 - containers >= 0.6
 - fgl >= 5.7
+- hashable >= 1.3
+- lens >= 4.18
+- parsec >= 3.1.14
 - split >= 0.2.3
+- util >= 0.1.17
 - vector >= 0.12
 
 library:
@@ -32,6 +37,7 @@ _executables-ghc-options-common: &executables-ghc-options-common
 - -threaded
 - -rtsopts
 - -with-rtsopts=-N
+- -Wno-partial-type-signatures
 
 _executables-common: &executables-common
   main: Main.hs

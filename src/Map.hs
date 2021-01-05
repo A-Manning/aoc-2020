@@ -3,5 +3,5 @@ module Map (
   , module Map.Extra
 ) where
 
-import Data.Map.Strict
+import Data.Map.Strict hiding ((!?))
 import Map.Extra

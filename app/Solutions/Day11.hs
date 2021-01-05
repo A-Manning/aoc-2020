@@ -2,12 +2,13 @@ module Solutions.Day11 where
 
 import qualified Matrix
 
+import Functor (imap)
 import Foldable (countBy)
 import Input hiding (get)
 import Matrix ((!?))
 
 tick1 :: Matrix.T Char -> Matrix.T Char
-tick1 m = Matrix.imap go m where
+tick1 m = imap go m where
   go pos 'L' = if occupiedAdjacent pos == 0 then '#' else 'L'
   go pos '#' = if occupiedAdjacent pos >= 4 then 'L' else '#'
   go   _ '.' = '.'
@@ -17,7 +18,7 @@ tick1 m = Matrix.imap go m where
     , (pred x, pred y), (x, pred y), (succ x, pred y) ]
 
 tick2 :: Matrix.T Char -> Matrix.T Char
-tick2 m = Matrix.imap go m where
+tick2 m = imap go m where
   go pos 'L' = if occupiedAdjacent pos == 0 then '#' else 'L'
   go pos '#' = if occupiedAdjacent pos >= 5 then 'L' else '#'
   go   _ '.' = '.'
@@ -36,5 +37,5 @@ solve = go . matrix where
   go m = do
     print $ occupied $ simulate tick1 m
     print $ occupied $ simulate tick2 m
-  occupied = sum . fmap (countBy (== '#')) . Matrix.toVector
+  occupied = sum . fmap (countBy (== '#')) . Matrix.toVectors
   simulate f m = let next = f m in if next == m then m else simulate f next

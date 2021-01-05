@@ -36,3 +36,9 @@ updateAt idx x vec = Vector.update vec $ Vector.singleton (idx, x)
 
 mapAt :: Int -> (a -> a) -> Vector a -> Vector a
 mapAt idx f vec = updateAt idx (f (vec `at` idx)) vec
+
+safeSlice :: Int -> Int -> Vector a -> Vector a
+safeSlice i len v =
+  if i >= Vector.length v then Vector.empty else
+  if i + len > Vector.length v then Vector.slice i (Vector.length v - i) v else
+  Vector.slice i len v
